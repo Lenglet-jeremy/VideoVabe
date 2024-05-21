@@ -83,6 +83,7 @@ export default function Register() {
   return (
     <div className="f-center w100Percent DarkBg">
       <form onSubmit={handleSubmit(submit)}>
+
         <div className="d-flex flex-column mb-10">
           <label htmlFor="username" className="mb-10">
             Pseudo
@@ -97,6 +98,22 @@ export default function Register() {
             <p className="text-error">{errors.username.message}</p>
           )}
         </div>
+
+        <div className="d-flex flex-column mb-10">
+          <label htmlFor="email" className="mb-10">
+            Email
+          </label>
+          <input
+            {...register("email")}
+            type="text"
+            id="email"
+            className="mb-10"
+          />
+          {errors.email && (
+            <p className="text-error">{errors.email.message}</p>
+          )}
+        </div>
+        
         <div className="d-flex flex-column mb-10">
           <label htmlFor="password" className="mb-10">
             Mot de passe

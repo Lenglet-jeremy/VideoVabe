@@ -4,10 +4,9 @@
   position: relative;
   padding: 10px 20px;
   height: 58px;
-  background-color: white;
+  background-color: #20232A;
   box-shadow: var(--box-shadow-nav);
   color: var(--primary);
-  background-color: #20232A;
   img {
     width: 130px;
     cursor: pointer;
@@ -17,23 +16,46 @@
 .headerList {
   display: flex;
   gap: 10px;
-  @include mixin.xs {
-    display: none;
-  }
-  a{
+
+  a {
     color: white;
     text-decoration: none;
+  }
+
+  @include mixin.xs {
+    display: none;
   }
 }
 
 .headerXs {
   display: none !important;
   cursor: pointer;
+  font-size: 24px;
+  color: white;
   transition: opacity 0.2s;
+
   &:hover {
     opacity: 0.8;
   }
+
   @include mixin.xs {
     display: block !important;
+  }
+}
+
+.show {
+  display: flex !important;
+  flex-direction: column;
+  gap: 10px;
+  position: absolute;
+  top: 58px;
+  right: 20px;
+  background-color: #20232A;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: var(--box-shadow-nav);
+
+  a {
+    color: white;
   }
 }
