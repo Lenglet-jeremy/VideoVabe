@@ -14,7 +14,6 @@ export default function Register() {
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  // schéma de validation
   const schema = yup.object({
     username: yup.string().required("Le champ est obligatoire"),
     email: yup
@@ -28,13 +27,12 @@ export default function Register() {
     confirmPassword: yup
       .string()
       .required("Vous devez confirmer votre mot de passe")
-      .oneOf([yup.ref("password"), ""], "Les mots ne correspondent pas"),
+      .oneOf([yup.ref("password"), ""], "Les mots de passe ne correspondent pas"),
     rgpd: yup
       .boolean()
       .oneOf([true], "Vous devez accepter les termes et les conditions"),
   });
 
-  //   valeurs par défaut
   const defaultValues = {
     username: "",
     email: "",
@@ -43,7 +41,6 @@ export default function Register() {
     rgpd: false,
   };
 
-  //   méthodes utilisées par useForm et options : resolver fait le lien entre le formulaire et le schéma
   const {
     register,
     handleSubmit,
@@ -55,7 +52,6 @@ export default function Register() {
     resolver: yupResolver(schema),
   });
 
-  //   fonction de validation de formulaire
   async function submit(values) {
     setFeedback(null);
     handleResetFeedback();
@@ -68,7 +64,9 @@ export default function Register() {
       setStatus(response.status);
       setShowModal(true);
     } catch (error) {
-      console.error(error);
+      console.error("Error during registration:", error);
+      setFeedback("Erreur lors de l'enregistrement. Veuillez réessayer.");
+      setShowModal(true);
     }
   }
 
@@ -149,11 +147,11 @@ export default function Register() {
 
         <div className="d-flex flex-column">
           <div className="mb-10">
-            <label for="option1">Femme</label>
+            <label htmlFor="option1">Femme</label>
             <input type="radio" id="option1" name="choix" value="1" />
           </div>
           <div className="mb-10">
-            <label for="option2">Homme</label>
+            <label htmlFor="option2">Homme</label>
             <input type="radio" id="option2" name="choix" value="2" />
           </div>
         </div>

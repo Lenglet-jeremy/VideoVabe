@@ -1,21 +1,30 @@
+// APIS/USERS.JS
+
 const BASE_URL = "http://localhost:5000/api/users";
 
 export async function signup(values) {
   try {
-    const response = await fetch(`${BASE_URL}/signup`, {
+    const response = await fetch("http://localhost:5000/api/signup", {  // Remplacez par l'URL correcte
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "application/json"
       },
-      body: JSON.stringify(values),
+      body: JSON.stringify(values)
     });
 
-    const message = await response.json();
-    return message;
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
   } catch (error) {
-    console.error(error);
+    console.error("Error in signup function:", error);
+    throw error;
   }
 }
+
+
 
 export async function signin(values) {
   try {
@@ -27,16 +36,19 @@ export async function signin(values) {
       body: JSON.stringify(values),
     });
 
-    const newUser = await response.json();
     if (!response.ok) {
       const errorData = await response.json();
-      throw new Error(errorData.message || "Une erreur s'est produite lors de l'inscription");
+      throw new Error(errorData.message || "Une erreur s'est produite lors de la connexion");
     }
+
+    const newUser = await response.json();
     return newUser;
   } catch (error) {
     console.error(error);
+    throw new Error("Une erreur s'est produite lors de la connexion");
   }
 }
+
 
 export const login = async (data) => {
   const response = await fetch(`${API_URL}/login`, {
@@ -54,3 +66,5 @@ export const login = async (data) => {
   const result = await response.json();
   return result;
 };
+
+

@@ -1,3 +1,5 @@
+//AUTHCONTEXT.JSX
+
 import React, { createContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -17,7 +19,7 @@ export const AuthProvider = ({ children }) => {
   const login = (token) => {
     localStorage.setItem("token", token);
     setAuth(token);
-    navigate("/");
+    navigate("/"); // Redirige l'utilisateur après la connexion
   };
 
   const logout = () => {
@@ -27,10 +29,12 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ auth, login, logout }}>
+    <AuthContext.Provider value={{ auth, login, logout, isAuthenticated: !!auth }}>
       {children}
     </AuthContext.Provider>
   );
 };
 
 export default AuthContext;
+
+

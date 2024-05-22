@@ -1,3 +1,5 @@
+//LOGIN.JSX
+
 import React, { useContext, useState } from "react";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
@@ -9,10 +11,8 @@ import AuthContext from "../../context/AuthContext";
 
 export default function Login() {
   const [feedback, setFeedback] = useState(null);
-  const [status, setStatus] = useState(0);
   const [showModal, setShowModal] = useState(false);
   const { login } = useContext(AuthContext);
-  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   const schema = yup.object({
@@ -40,18 +40,20 @@ export default function Login() {
     handleResetFeedback();
     try {
       const response = await signin(values);
-      login(response.token);
-      setStatus(response.status);
-      if (response.status === 200 || !response.message) {
+      if (response.token) {
+        login(response.token);
         setFeedback(`Bienvenue ${response.user.username}`);
         reset(defaultValues);
         setShowModal(true);
+        navigate("/"); // Redirige l'utilisateur après la connexion réussie
       } else {
         setFeedback(response.message);
         setShowModal(true);
       }
     } catch (error) {
       console.error(error);
+      setFeedback("Une erreur s'est produite. Veuillez réessayer.");
+      setShowModal(true);
     }
   }
 
@@ -61,9 +63,6 @@ export default function Login() {
 
   function handleCloseModal() {
     setShowModal(false);
-    if (status === 200) {
-      navigate("/");
-    }
   }
 
   return (
@@ -114,3 +113,5 @@ export default function Login() {
     </div>
   );
 }
+
+

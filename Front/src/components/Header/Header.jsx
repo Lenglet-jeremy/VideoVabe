@@ -1,12 +1,13 @@
-import { NavLink, useNavigate } from "react-router-dom";
-import { useState, useContext } from "react";
+//HEADER.JSX
+
+import React, { useState, useContext } from "react";
+import { NavLink } from "react-router-dom";
 import AuthContext from "../../context/AuthContext";
 import styles from "./Header.module.scss";
 
 function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const { isAuthenticated, logout } = useContext(AuthContext);
-  const navigate = useNavigate();
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
@@ -14,8 +15,7 @@ function Header() {
 
   const handleLogout = () => {
     logout();
-    navigate("/");
-  }
+  };
 
   return (
     <header className={`${styles.header} d-flex flex-row align-items-center`}>
@@ -26,18 +26,25 @@ function Header() {
         &#9776;
       </div>
       <ul className={`${styles.headerList} ${menuOpen ? styles.show : ''}`}>
-        
-      {isAuthenticated ? (
-              <NavLink to="/login">Logout</NavLink>
-          ) : (
-            <>
-              <NavLink to={"/register"}>Register</NavLink>
-              <NavLink to={"/login"}>Login</NavLink>
-            </>
-          )}
+        {isAuthenticated ? (
+          <li>
+            <button onClick={handleLogout}>Logout</button>
+          </li>
+        ) : (
+          <>
+            <li>
+              <NavLink to="/register">Register</NavLink>
+            </li>
+            <li>
+              <NavLink to="/login">Login</NavLink>
+            </li>
+          </>
+        )}
       </ul>
     </header>
   );
 }
 
 export default Header;
+
+
