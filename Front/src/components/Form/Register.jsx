@@ -1,15 +1,17 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { signup } from "../../apis/users";
 import { useNavigate } from "react-router-dom";
 import Modal from "../Modal/Modal";
+import AuthContext from "../../context/AuthContext";
 
 export default function Register() {
   const [feedback, setFeedback] = useState(null);
   const [status, setStatus] = useState(0);
   const [showModal, setShowModal] = useState(false);
+  const { login } = useContext(AuthContext);
   const navigate = useNavigate();
 
   // schéma de validation
@@ -55,10 +57,12 @@ export default function Register() {
 
   //   fonction de validation de formulaire
   async function submit(values) {
+    setFeedback(null);
     handleResetFeedback();
     console.log(values);
     try {
       const response = await signup(values);
+      login(response.token);
       console.log(response);
       setFeedback(response.message);
       setStatus(response.status);
