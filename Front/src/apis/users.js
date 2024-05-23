@@ -1,10 +1,8 @@
-// APIS/USERS.JS
-
 const BASE_URL = "http://localhost:5000/api/users";
 
 export async function signup(values) {
   try {
-    const response = await fetch("http://localhost:5000/api/signup", {  // Remplacez par l'URL correcte
+    const response = await fetch("http://localhost:5000/api/signup", {  
       method: "POST",
       headers: {
         "Content-Type": "application/json"

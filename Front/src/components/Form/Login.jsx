@@ -1,5 +1,3 @@
-//LOGIN.JSX
-
 import React, { useContext, useState } from "react";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";

@@ -1,5 +1,3 @@
-//ROUTES/USERS.JS
-// routes/users.js
 const express = require("express");
 const router = express.Router();
 const User = require("../models/user.schema");
@@ -30,7 +28,6 @@ const authenticateToken = (req, res, next) => {
   });
 };
 
-// Route to upload a video
 router.post("/videos/upload", authenticateToken, upload.single('video'), async (req, res) => {
   try {
     const { title } = req.body;
@@ -46,7 +43,6 @@ router.post("/videos/upload", authenticateToken, upload.single('video'), async (
   }
 });
 
-// Route to get all videos
 router.get("/videos", authenticateToken, async (req, res) => {
   try {
     const videos = await Video.find().populate('user', 'username');
@@ -56,7 +52,6 @@ router.get("/videos", authenticateToken, async (req, res) => {
   }
 });
 
-// Route to like a video
 router.post("/videos/:id/like", authenticateToken, async (req, res) => {
   try {
     const video = await Video.findById(req.params.id);
@@ -68,7 +63,6 @@ router.post("/videos/:id/like", authenticateToken, async (req, res) => {
   }
 });
 
-// Route to dislike a video
 router.post("/videos/:id/dislike", authenticateToken, async (req, res) => {
   try {
     const video = await Video.findById(req.params.id);
