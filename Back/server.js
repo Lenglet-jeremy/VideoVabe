@@ -2,6 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
+const User = require("./models/user.schema");  
 const port = process.env.PORT || 4000;
 const userRouter = require("./routes/users");
 const videoRouter = require("./routes/videos");
@@ -15,14 +16,33 @@ app.use(
 );
 app.use("/api/users", userRouter);
 app.use("/api/videos", videoRouter); 
-app.post('/api/signup', (req, res) => {
+
+// Route pour l'inscription
+app.post('/api/signup', async (req, res) => {
   const { username, email, password } = req.body;
 
-  res.status(200).json({
-    status: 200,
-    message: 'Inscription réussie',
-    token: 'token-dummy-value'
-  });
+  try {
+    const user = new User({ username, email, password });
+    await user.save();
+    res.status(201).json({
+      status: 201,
+      message: 'Inscription réussie',
+      token: 'token-dummy-value'  
+    });
+  } catch (error) {
+    if (error.code === 11000) {
+      res.status(400).json({
+        status: 400,
+        message: 'Email ou username déjà utilisé'
+      });
+    } else {
+      res.status(500).json({
+        status: 500,
+        message: 'Erreur lors de l\'inscription. Veuillez réessayer.',
+        error: error.message
+      });
+    }
+  }
 });
 
 mongoose
